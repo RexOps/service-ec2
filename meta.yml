@@ -2,7 +2,5 @@ Name: EC2 Service
 Description: A service to create EC2 VMs
 Author: jan gehring <jan.gehring@gmail.com>
 License: Apache 2.0
-Require:
-  - Rex::Ext::ParamLookup
 PerlRequire:
   - IO::All

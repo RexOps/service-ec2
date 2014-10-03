@@ -1,6 +1,5 @@
 use Rex -feature => ['0.54'];
 use IO::All;
-use Rex::Ext::ParamLookup;
 use Rex::Commands::Cloud;
 use Rex::Commands::JobControl;
 
@@ -15,9 +14,10 @@ cloud_region "ec2.eu-west-1.amazonaws.com";
 
 desc "Setup EC2";
 task "setup", make {
-  my $ec2_name   = param_lookup "ec2_name",   generate_vm_name();
-  my $ec2_ami_id = param_lookup "ec2_ami_id", "ami-04439f73";
-  my $ec2_key    = param_lookup "ec2_key",    "dev-test";
+  my $cmdb       = get cmdb "ec2";    # get cmdb values from JobControl formular
+  my $ec2_name   = $cmdb->{name};
+  my $ec2_key    = $cmdb->{key};
+  my $ec2_ami_id = "ami-04439f73";
 
   my $instance = cloud_instance create => {
     image_id => $ec2_ami_id,
