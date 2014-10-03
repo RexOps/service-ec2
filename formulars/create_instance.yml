@@ -1,7 +1,6 @@
 formulars:
   - name: ec2
     label: Configure your EC2 Instance
-    repeatable: false
     key: ec2
     fields:
       - name: name
@@ -16,6 +15,11 @@ formulars:
         values:
           - label: dev-test
             value: dev-test
+    buttons:
+      next_formular:
+        text: Add virtual hosts
+      last_formular:
+        text: Back
 
   - name: virtual_hosts
     label: Configure a virtual host
