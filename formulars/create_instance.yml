@@ -1,7 +1,6 @@
 formulars:
   - name: ec2
     label: Configure your EC2 Instance
-    key: ec2
     fields:
       - name: name
         type: text

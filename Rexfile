@@ -2,6 +2,7 @@ use Rex -feature => ['0.54'];
 use IO::All;
 use Rex::Commands::Cloud;
 use Rex::Commands::JobControl;
+use Rex::Commands::SimpleCheck;
 
 # read the keys from files
 # these files need to be placed in /etc/rex/aws directory.
@@ -35,6 +36,11 @@ task "setup", make {
     };
 
   jobcontrol_next_server $instance->{ip};
+
+  # wait until ssh is available
+  while ( !is_port_open( $instance->{ip}, 22 ) ) {
+    sleep 2;
+  }
 };
 
 sub generate_vm_name {
