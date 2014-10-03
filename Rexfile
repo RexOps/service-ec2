@@ -6,12 +6,23 @@ use Rex::Commands::SimpleCheck;
 
 # read the keys from files
 # these files need to be placed in /etc/rex/aws directory.
-my ($access_key)        = io("/etc/rex/aws/access.key")->all;
-my ($secret_access_key) = io("/etc/rex/aws/secret_access.key")->all;
+if ( -f "/etc/rex/aws/access.key" && -f "/etc/rex/aws/secret_access.key" ) {
+  my ($access_key)        = io("/etc/rex/aws/access.key")->all;
+  my ($secret_access_key) = io("/etc/rex/aws/secret_access.key")->all;
 
-cloud_service "Amazon";
-cloud_auth "$access_key", "$secret_access_key";
-cloud_region "ec2.eu-west-1.amazonaws.com";
+  cloud_service "Amazon";
+  cloud_auth "$access_key", "$secret_access_key";
+  cloud_region "ec2.eu-west-1.amazonaws.com";
+}
+else {
+  Rex::Logger::info("Error: You have to place your Amazon access and secret key in the following files:");
+  Rex::Logger::info("  - /etc/rex/aws/access.key");
+  Rex::Logger::info("  - /etc/rex/aws/secret_access.key");
+
+  Rex::Logger::info("And you have to copy your private and public ssh key to:");
+  Rex::Logger::info("  - private key: /etc/rex/aws/keys/{{keyname}}.pem");
+  Rex::Logger::info("  - public key : /etc/rex/aws/keys/{{keyname}}.pub");
+}
 
 desc "Setup EC2";
 task "setup", make {
