@@ -18,7 +18,7 @@ task "setup", make {
   my $cmdb       = get cmdb "ec2";    # get cmdb values from JobControl formular
   my $ec2_name   = $cmdb->{name};
   my $ec2_key    = $cmdb->{key};
-  my $ec2_ami_id = "ami-04439f73";
+  my $ec2_ami_id = "ami-1c2e8b6b";
 
   my $instance = cloud_instance create => {
     image_id => $ec2_ami_id,
@@ -30,9 +30,10 @@ task "setup", make {
     name => $instance->{ip},
     auth => {
     auth_type   => "key",
-    user        => "admin",
+    user        => "ec2-user",
     private_key => "/etc/rex/aws/keys/$ec2_key.pem",
     public_key  => "/etc/rex/aws/keys/$ec2_key.pub",
+    sudo        => TRUE,
     };
 
   jobcontrol_next_server $instance->{ip};
