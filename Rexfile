@@ -42,6 +42,8 @@ task "setup", make {
   while ( !is_port_open( $instance->{ip}, 22 ) ) {
     sleep 2;
   }
+
+  sleep 30;
 };
 
 sub generate_vm_name {
