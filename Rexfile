@@ -4,28 +4,29 @@ use Rex::Commands::Cloud;
 use Rex::Commands::JobControl;
 use Rex::Commands::SimpleCheck;
 
-# read the keys from files
-# these files need to be placed in /etc/rex/aws directory.
-if ( -f "/etc/rex/aws/access.key" && -f "/etc/rex/aws/secret_access.key" ) {
-  my ($access_key)        = io("/etc/rex/aws/access.key")->all;
-  my ($secret_access_key) = io("/etc/rex/aws/secret_access.key")->all;
-
-  cloud_service "Amazon";
-  cloud_auth "$access_key", "$secret_access_key";
-  cloud_region "ec2.eu-west-1.amazonaws.com";
-}
-else {
-  Rex::Logger::info("Error: You have to place your Amazon access and secret key in the following files:");
-  Rex::Logger::info("  - /etc/rex/aws/access.key");
-  Rex::Logger::info("  - /etc/rex/aws/secret_access.key");
-
-  Rex::Logger::info("And you have to copy your private and public ssh key to:");
-  Rex::Logger::info("  - private key: /etc/rex/aws/keys/{{keyname}}.pem");
-  Rex::Logger::info("  - public key : /etc/rex/aws/keys/{{keyname}}.pub");
-}
-
 desc "Setup EC2";
 task "setup", make {
+
+  # read the keys from files
+  # these files need to be placed in /etc/rex/aws directory.
+  if ( -f "/etc/rex/aws/access.key" && -f "/etc/rex/aws/secret_access.key" ) {
+    my ($access_key)        = io("/etc/rex/aws/access.key")->all;
+    my ($secret_access_key) = io("/etc/rex/aws/secret_access.key")->all;
+
+    cloud_service "Amazon";
+    cloud_auth "$access_key", "$secret_access_key";
+    cloud_region "ec2.eu-west-1.amazonaws.com";
+  }
+  else {
+    Rex::Logger::info("Error: You have to place your Amazon access and secret key in the following files:", "error");
+    Rex::Logger::info("  - /etc/rex/aws/access.key");
+    Rex::Logger::info("  - /etc/rex/aws/secret_access.key");
+
+    Rex::Logger::info("And you have to copy your private and public ssh key to:", "error");
+    Rex::Logger::info("  - private key: /etc/rex/aws/keys/{{keyname}}.pem");
+    Rex::Logger::info("  - public key : /etc/rex/aws/keys/{{keyname}}.pub");
+  }
+
   my $cmdb       = get cmdb "ec2";    # get cmdb values from JobControl formular
   my $ec2_name   = $cmdb->{name};
   my $ec2_key    = $cmdb->{key};
