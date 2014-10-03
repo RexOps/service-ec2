@@ -18,7 +18,7 @@ task "setup", make {
   my $cmdb       = get cmdb "ec2";    # get cmdb values from JobControl formular
   my $ec2_name   = $cmdb->{name};
   my $ec2_key    = $cmdb->{key};
-  my $ec2_ami_id = "ami-1c2e8b6b";
+  my $ec2_ami_id = "ami-ac8526db";
 
   my $instance = cloud_instance create => {
     image_id => $ec2_ami_id,
