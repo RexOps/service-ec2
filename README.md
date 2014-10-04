@@ -11,6 +11,7 @@ You have to create the following files on your system (or change the source code
 * private ssh key: /etc/rex/aws/keys/some-ssh-key.pem
 * public ssh key : /etc/rex/aws/keys/some-ssh-key.pub
 
+The default AMI id that is used in this example is from eu-west-1.
 
 ## Formulars
 
