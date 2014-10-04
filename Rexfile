@@ -25,6 +25,8 @@ task "setup", make {
     Rex::Logger::info("And you have to copy your private and public ssh key to:", "error");
     Rex::Logger::info("  - private key: /etc/rex/aws/keys/{{keyname}}.pem");
     Rex::Logger::info("  - public key : /etc/rex/aws/keys/{{keyname}}.pub");
+
+    die("No cloud configuration found.");
   }
 
   my $cmdb       = get cmdb "ec2";    # get cmdb values from JobControl formular
